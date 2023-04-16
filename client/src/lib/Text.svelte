@@ -10,8 +10,7 @@
 	export let y = 0;
 
 	export let fontSize = 16;
-	export let fontFamily =
-		'-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica';
+	export let fontFamily = '"Courier New", Courier, monospace';
 
 	renderable((props: any, deltaTime: number) => {
 		const context = props;

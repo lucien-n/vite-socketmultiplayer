@@ -21,7 +21,8 @@
 	let keys: Array<string> = [];
 	let controls: Array<string> = ['z', 'q', 's', 'd'];
 
-	let text;
+	let pos_text;
+	let name_text;
 
 	renderable((props: any, deltaTime: number) => {
 		const context = props;
@@ -45,10 +46,15 @@
 
 		socket.emit('client-move', x, y);
 
-		text.$set({
+		pos_text.$set({
 			text: `(${x}, ${y})`,
-			x: x + size / 2,
-			y: y,
+			x: $width - 10,
+			y: 10,
+		});
+		name_text.$set({
+			text: `You`,
+			x: x + 4,
+			y: y - 4,
 		});
 
 		// Draw
@@ -80,5 +86,6 @@
 	on:keydown={(e) => keyDown(e.key)}
 	on:keyup={(e) => keyUp(e.key)}
 />
-<Text fontSize={20} baseline="bottom" align="center" bind:this={text} />
+<Text fontSize={20} baseline="top" align="end" bind:this={pos_text} />
+<Text fontSize={20} baseline="bottom" align="start" bind:this={name_text} />
 <slot />
