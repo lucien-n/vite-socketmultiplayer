@@ -4,11 +4,13 @@ import type { Writable } from 'svelte/store';
 
 export class Dummy {
 	id: string;
+	username: string;
 	x: number;
 	y: number;
 
-	constructor(id: string, x: number, y: number) {
+	constructor(id: string, username: string, x: number, y: number) {
 		this.id = id;
+		this.username = username;
 		this.x = x;
 		this.y = y;
 	}

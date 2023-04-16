@@ -1,15 +1,11 @@
 <script lang="ts">
-	import { width, height, renderable } from './game';
+	import { width, height, renderable, Dummy } from './game';
 	import Text from './Text.svelte';
 
-	export let id: string;
-
-	export let x: number = $width / 2;
-	export let y: number = $height / 2;
+	export let dummy: Dummy;
 
 	export let color: string = '#9999ff';
-
-	export let size = 50;
+	export let size = 48;
 
 	let name_text;
 	let pos_text;
@@ -18,20 +14,20 @@
 		const context = props;
 
 		pos_text.$set({
-			text: `(${x}, ${y})`,
-			x: x + size / 2,
-			y: y,
+			text: `(${dummy.x}, ${dummy.y})`,
+			x: dummy.x + size / 2,
+			y: dummy.y,
 		});
 		name_text.$set({
-			text: `${id}`,
-			x: x + size / 2,
-			y: y + size,
+			text: dummy.username,
+			x: dummy.x + size / 2,
+			y: dummy.y + size,
 		});
 
 		// Draw
 		context.beginPath();
 		context.fillStyle = color;
-		context.fillRect(x, y, size, size);
+		context.fillRect(dummy.x, dummy.y, size, size);
 	});
 </script>
 

@@ -44,7 +44,9 @@
 			x += speed;
 		}
 
-		socket.emit('client-move', x, y);
+		if (prev_x !== x || prev_y != y) {
+			socket.emit('client-move', x, y);
+		}
 
 		pos_text.$set({
 			text: `(${x}, ${y})`,
