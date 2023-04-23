@@ -35,7 +35,10 @@ io.on('connection', (socket) => {
 	});
 
 	info('Sending rooms to client:', client.id);
-	socket.emit('rooms', Object.keys(rooms));
+	socket.emit(
+		'rooms',
+		Object.values(rooms).map((room) => room.repr())
+	);
 
 	socket.on('join-room', (room, client_username) => {
 		socket.join(room);

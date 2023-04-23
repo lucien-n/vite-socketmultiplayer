@@ -50,7 +50,7 @@
 		listeners.forEach((entity) => {
 			try {
 				if (entity.mounted && entity.ready) {
-					entity.render(ctx);
+					entity.render(ctx, deltaTime);
 				}
 			} catch (err) {
 				console.error(err);

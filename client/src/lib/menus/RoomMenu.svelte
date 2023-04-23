@@ -1,25 +1,28 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import Menu from './Menu.svelte';
-
-	export let rooms;
+	import { rooms } from '../game';
 
 	const dispatch = createEventDispatcher();
 
 	let selected_room = rooms[0];
+
+	$rooms.forEach((room) => {
+		console.log(room);
+	});
 </script>
 
 <Menu>
 	<h1>Choose Room</h1>
-	{#each rooms as room}
+	{#each $rooms as room}
 		<button
 			class="room"
-			id="room-{room}"
+			id="room-{room[0]}"
 			name="choose-room"
-			value={room}
-			placeholder={room}
-			class:selected={selected_room == room}
-			on:click={() => (selected_room = room)}>{room}</button
+			value={room[0]}
+			class:selected={selected_room == room[0]}
+			on:click={() => (selected_room = room[0])}
+			>{`${room[0]} ${room[1]}/${room[2]}`}</button
 		>
 	{/each}
 	<hr />

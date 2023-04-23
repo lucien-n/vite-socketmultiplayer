@@ -7,7 +7,7 @@ export class Room {
 
 	constructor(name, max_clients) {
 		this.name = name;
-		this.max_clients = max_clients;
+		this.max_clients = max_clients === undefined ? 8 : max_clients;
 	}
 
 	addClient(client) {
@@ -25,5 +25,13 @@ export class Room {
 
 	getNumberOfClients() {
 		return Object.keys(this.clients).length;
+	}
+
+	getMaxClients() {
+		return this.max_clients;
+	}
+
+	repr() {
+		return [this.name, this.getNumberOfClients(), this.getMaxClients()];
 	}
 }

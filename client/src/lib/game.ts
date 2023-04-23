@@ -16,6 +16,36 @@ export class Dummy {
 	}
 }
 
+export class Vector2 {
+	x: number;
+	y: number;
+
+	constructor(x: number, y: number) {
+		this.x = x;
+		this.y = y;
+	}
+
+	add(vector: Vector2) {
+		this.x += vector.x;
+		this.y += vector.y;
+	}
+
+	multiply(vector: Vector2) {
+		this.x *= vector.x;
+		this.y *= vector.y;
+	}
+
+	divide(vector: Vector2) {
+		this.x /= vector.x;
+		this.y /= vector.y;
+	}
+
+	set(vector: Vector2) {
+		this.x = vector.x;
+		this.y = vector.y;
+	}
+}
+
 export const canvas = writable();
 export const context = writable();
 export const time = writable(0);
@@ -24,6 +54,8 @@ export const width = writable(window.innerWidth);
 export const height = writable(window.innerHeight);
 
 export const players: Writable<{ [id: string]: Dummy }> = writable({});
+
+export const rooms = writable([]);
 
 export const props = deriveObject({
 	context,

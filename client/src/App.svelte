@@ -5,10 +5,10 @@
 	import Text from './lib/Text.svelte';
 	import io from 'socket.io-client';
 	import { players, Dummy } from './lib/game';
-	import RoomMenu from './lib/RoomMenu.svelte';
-	import ServerMenu from './lib/ServerMenu.svelte';
-	import { writable } from 'svelte/store';
-	import UsernameMenu from './lib/UsernameMenu.svelte';
+	import RoomMenu from './lib/menus/RoomMenu.svelte';
+	import ServerMenu from './lib/menus/ServerMenu.svelte';
+	import UsernameMenu from './lib/menus/UsernameMenu.svelte';
+	import { rooms } from './lib/game';
 
 	// 0 -> Server Menu
 	// 1 -> Room Selection Menu
@@ -20,8 +20,6 @@
 
 	let selected_room = 'alpha';
 	let selected_username = 'Scaffus';
-
-	const rooms = writable([]);
 
 	function connect(event: any) {
 		let ip = event.detail;
@@ -36,8 +34,8 @@
 		});
 
 		// Received available rooms from server
-		socket.on('rooms', (room_names) => {
-			$rooms = room_names;
+		socket.on('rooms', (rooms) => {
+			$rooms = rooms;
 		});
 
 		socket.on('clients-in-room', (clients: Array<object>) => {
@@ -95,7 +93,7 @@
 	<ServerMenu on:connect={connect} />
 {:else if gameState === 1}
 	<!-- Pick Room -->
-	<RoomMenu rooms={$rooms} on:select-room={selectRoom} />
+	<RoomMenu on:select-room={selectRoom} />
 {:else if gameState === 2}
 	<!-- Pick username -->
 	<UsernameMenu on:select-username={selectUsername} />

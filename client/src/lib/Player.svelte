@@ -1,68 +1,61 @@
 <script lang="ts">
 	import type { Socket } from 'socket.io-client';
-	import { width, height, renderable } from './game';
+	import { width, height, renderable, Vector2 } from './game';
 	import Text from './Text.svelte';
 
 	export let socket: Socket;
 
 	export let startX = $width / 2;
 	export let startY = $height / 2;
-	export let speed = 2;
+	export let speed = 300;
 
 	export let color: string = '#99ff99';
 	export let size = 50;
 
-	let x: number = startX;
-	let y: number = startY;
+	let pos: Vector2 = new Vector2(startX, startY);
 
-	let prev_x: number = x;
-	let prev_y: number = y;
+	let prev_pos: Vector2 = new Vector2(pos.x, pos.y);
 
 	let keys: Array<string> = [];
 	let controls: Array<string> = ['z', 'q', 's', 'd'];
 
-	let pos_text;
-	let name_text;
+	let text;
 
 	renderable((props: any, deltaTime: number) => {
 		const context = props;
 
 		// Update
-		prev_x = x;
-		prev_y = y;
+		prev_pos.set(pos);
+
+		let velocity = new Vector2(0, 0);
 
 		if (pressed('z')) {
-			y -= speed;
+			velocity.y = -(speed * deltaTime);
 		}
 		if (pressed('q')) {
-			x -= speed;
+			velocity.x = -(speed * deltaTime);
 		}
 		if (pressed('s')) {
-			y += speed;
+			velocity.y = speed * deltaTime;
 		}
 		if (pressed('d')) {
-			x += speed;
+			velocity.x = speed * deltaTime;
 		}
 
-		if (prev_x !== x || prev_y != y) {
-			socket.emit('client-move', x, y);
-		}
+		pos.add(velocity);
 
-		pos_text.$set({
-			text: `(${x}, ${y})`,
-			x: $width - 10,
-			y: 10,
-		});
-		name_text.$set({
-			text: `You`,
-			x: x + 4,
-			y: y - 4,
+		socket.emit('client-move', pos.x, pos.y);
+
+		text.$set({
+			text: `(${pos.x}, ${pos.y})`,
+			x: pos.x + size / 2,
+			y: pos.y,
 		});
 
 		// Draw
 		context.beginPath();
 		context.fillStyle = color;
-		context.fillRect(x, y, size, size);
+		context.fillRect(pos.x, pos.y, size, size);
 	});
 
 	function keyDown(key: string) {
@@ -88,6 +81,5 @@
 	on:keydown={(e) => keyDown(e.key)}
 	on:keyup={(e) => keyUp(e.key)}
 />
-<Text fontSize={20} baseline="top" align="end" bind:this={pos_text} />
-<Text fontSize={20} baseline="bottom" align="start" bind:this={name_text} />
+<Text fontSize={20} baseline="bottom" align="center" bind:this={text} />
 <slot />
