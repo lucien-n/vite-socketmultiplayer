@@ -10,6 +10,7 @@
 		width,
 		height,
 		props,
+		players,
 	} from './game';
 
 	export let killLoopOnError = true;
@@ -100,6 +101,7 @@
 	width={$width * $pixelRatio}
 	height={$height * $pixelRatio}
 	style="width: {$width}px; height: {$height}px;"
+	on:click={() => }
 />
 <svelte:window on:resize|passive={handleResize} />
 <slot />

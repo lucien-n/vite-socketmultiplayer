@@ -4,11 +4,12 @@
 	import DummyPlayer from './lib/DummyPlayer.svelte';
 	import Text from './lib/Text.svelte';
 	import io from 'socket.io-client';
-	import { players, Dummy } from './lib/game';
+	import { players, Dummy, width, height } from './lib/game';
 	import RoomMenu from './lib/RoomMenu.svelte';
 	import ServerMenu from './lib/ServerMenu.svelte';
 	import { writable } from 'svelte/store';
 	import UsernameMenu from './lib/UsernameMenu.svelte';
+	import Button from './lib/Button.svelte';
 
 	// 0 -> Server Menu
 	// 1 -> Room Selection Menu
@@ -40,8 +41,9 @@
 			$rooms = room_names;
 		});
 
-		socket.on('clients-in-room', (clients: Array<object>) => {
+		socket.on('clients-in-room', (clients: Array<any>) => {
 			clients.forEach((client: any) => {
+				if (client == socket.id) return;
 				$players[client.id] = new Dummy(client.name, client[1], 0, 0);
 			});
 		});
@@ -113,6 +115,15 @@
 			baseline="top"
 			x={10}
 			y={10}
+		/>
+		<Button
+			text="QUIT"
+			fontSize={30}
+			align="end"
+			baseline="bottom"
+			x={$width}
+			y={$height}
+			on:click={() => console.log('click')}
 		/>
 	</Canvas>
 {/if}
