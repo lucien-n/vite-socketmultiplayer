@@ -62,6 +62,9 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('leave-room', () => {
+		info('Client left room:', socket.id);
+		if (!Object.keys(rooms).includes(client.in_room)) return;
+
 		rooms[client.in_room].removeClient(client);
 		socket.broadcast.emit('client-left', client.id);
 	});
@@ -72,6 +75,8 @@ io.on('connection', (socket) => {
 
 	socket.on('disconnect', () => {
 		info('Client disconnected:', socket.id);
+		if (!Object.keys(rooms).includes(client.in_room)) return;
+
 		rooms[client.in_room].removeClient(client);
 		socket.broadcast.emit('client-left', client.id);
 	});

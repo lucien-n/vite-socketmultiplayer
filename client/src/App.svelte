@@ -40,6 +40,7 @@
 
 		socket.on('clients-in-room', (clients: Array<object>) => {
 			clients.forEach((client: any) => {
+				if (client === socket.id) return;
 				$players[client.id] = new Dummy(client.name, client[1], 0, 0);
 			});
 		});

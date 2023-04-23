@@ -44,6 +44,12 @@ export class Vector2 {
 		this.x = vector.x;
 		this.y = vector.y;
 	}
+
+	round(decimals: number) {
+		const factor = Math.pow(10, decimals);
+		this.x = Math.round(this.x * factor) / factor;
+		this.y = Math.round(this.y * factor) / factor;
+	}
 }
 
 export const canvas = writable();

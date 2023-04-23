@@ -5,11 +5,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	let selected_room = rooms[0];
-
-	$rooms.forEach((room) => {
-		console.log(room);
-	});
+	let selected_room = $rooms[0][0];
 </script>
 
 <Menu>

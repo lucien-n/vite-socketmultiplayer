@@ -44,6 +44,8 @@
 
 		pos.add(velocity);
 
+		pos.round(1);
+
 		socket.emit('client-move', pos.x, pos.y);
 
 		text.$set({
